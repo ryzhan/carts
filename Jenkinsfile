@@ -30,16 +30,26 @@ pipeline {
             }
     }
     stage('Deploy') {
+
+        environment {
+                PRODUCTION_NETWORK_IP = sh(script: "cat /var/lib/jenkins/production_local_ip", , returnStdout: true).trim()
+                }
+
         steps {
-            sh 'ssh -oStrictHostKeyChecking=no jenkins@10.142.15.226 sudo systemctl stop carts'
-            sh 'scp /var/lib/jenkins/workspace/JenkinsDemo/target/carts.jar jenkins@10.142.15.226:~'
-            sh 'ssh -oStrictHostKeyChecking=no jenkins@10.142.15.226 sudo systemctl start carts'
+            
+                timeout(time:5, unit:'DAYS') {
+                    input message:'Approve deployment?', submitter: 'it-ops'
+                }
+            
+            sh "ssh -oStrictHostKeyChecking=no jenkins@$PRODUCTION_NETWORK_IP sudo systemctl stop carts"
+            sh "scp /var/lib/jenkins/workspace/JenkinsDemo/target/carts.jar jenkins@$PRODUCTION_NETWORK_IP:~"
+            sh "ssh -oStrictHostKeyChecking=no jenkins@$PRODUCTION_NETWORK_IP sudo systemctl start carts"
         }
     }
     }
     post {
         always {
-            echo 'I have finished'            
+            echo 'I have finished and deleting workspace'
         }
         success {
             echo 'Job succeeeded!'
