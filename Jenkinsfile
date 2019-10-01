@@ -20,7 +20,7 @@ pipeline {
         }
     stage('Test') {
             steps {
-                sh 'mvn test' 
+                sh './test/test.sh unit.py' 
                 
             }
         }
