@@ -14,13 +14,13 @@ pipeline {
         }
     stage('Build') {
             steps {
-                sh 'mvn clean package' 
+                sh 'mvn clean package -DskipTest=true' 
                 
             }
         }
     stage('Test') {
             steps {
-                sh './test/test.sh unit.py' 
+                sh 'mvn test' 
                 
             }
         }
