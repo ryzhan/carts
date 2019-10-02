@@ -49,7 +49,7 @@ pipeline {
     }
     post {
         always {
-            echo 'I have finished and deleting workspace'
+            echo 'I have finished'
         }
         success {
             echo 'Job succeeeded!'
