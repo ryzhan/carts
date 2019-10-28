@@ -5,4 +5,4 @@ COPY ./target/*.jar ./app.jar
 ARG DB_NETWORK_IP=db-server 
 RUN echo $DB_NETWORK_DB
 
-ENTRYPOINT ["java","-Djava.security.egd=file:/dev/urandom","-Ddb:carts-db=$DB_NETWORK_DB","-jar","./app.jar", "--port=80"]
+ENTRYPOINT ["java","-Djava.security.egd=file:/dev/urandom","-Ddb:carts-db=10.142.15.223","-jar","./app.jar", "--port=80"]
