@@ -2,6 +2,8 @@
 pipeline{
     agent any
        
+    triggers { upstream(upstreamProjects: 'terraform-infrastucture', threshold: hudson.model.Result.SUCCESS) }
+    
        stages {
         stage('Checkout') {
             steps {
