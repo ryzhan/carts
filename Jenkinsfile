@@ -27,6 +27,16 @@ pipeline{
                     archiveArtifacts artifacts: '**/*', fingerprint: true
                 }
         }
+        
+        stage('Approve for Deploy') {
+        
+                steps {
+                    timeout(time:5, unit:'DAYS') {
+                        input message:'Approve deployment?'
+                    }
+
+                }
+        }   
            
         stage('Run front-end') {
             
@@ -35,10 +45,6 @@ pipeline{
             }
             
             steps {
-                
-                timeout(time:5, unit:'DAYS') {
-                    input message:'Approve deployment?'
-                }
                 
                 dir('./ansible'){
                     sh 'ansible-playbook build_microservices.yml --tags "carts-run" --extra-var "db_host=$DB_HOST"'
