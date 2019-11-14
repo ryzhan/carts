@@ -58,6 +58,7 @@ pipeline{
         always {
             echo 'I have finished'
             echo 'And cleaned workspace'
+            junit 'microservices/carts/target/surefire-reports/*.xml'
             //deleteDir()
         }
         success {
